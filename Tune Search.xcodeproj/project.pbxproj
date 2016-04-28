@@ -17,6 +17,7 @@
 		62E4F01D1CCE93070065D83D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E4F01C1CCE93070065D83D /* Reachability.m */; };
 		62E4F0271CCFE7640065D83D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62E4F0261CCFE7640065D83D /* Social.framework */; };
 		62E4F02A1CCFED2F0065D83D /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E4F0291CCFED2F0065D83D /* DetailViewController.m */; };
+		62E4F0371CD135EB0065D83D /* TuneCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E4F0361CD135EB0065D83D /* TuneCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		62E4F0261CCFE7640065D83D /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		62E4F0281CCFED2F0065D83D /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		62E4F0291CCFED2F0065D83D /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		62E4F0351CD135EB0065D83D /* TuneCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuneCollectionViewCell.h; sourceTree = "<group>"; };
+		62E4F0361CD135EB0065D83D /* TuneCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TuneCollectionViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +82,9 @@
 				62E4F0281CCFED2F0065D83D /* DetailViewController.h */,
 				62E4F0291CCFED2F0065D83D /* DetailViewController.m */,
 				62E4F00B1CCE8CB10065D83D /* Main.storyboard */,
+				62E4F0351CD135EB0065D83D /* TuneCollectionViewCell.h */,
+				62E4F0361CD135EB0065D83D /* TuneCollectionViewCell.m */,
+				62E4F0031CCE8CB10065D83D /* main.m */,
 				62E4F00E1CCE8CB10065D83D /* Assets.xcassets */,
 				62E4F0101CCE8CB10065D83D /* LaunchScreen.storyboard */,
 				62E4F0131CCE8CB10065D83D /* Info.plist */,
@@ -90,7 +96,6 @@
 		62E4F0021CCE8CB10065D83D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				62E4F0031CCE8CB10065D83D /* main.m */,
 				62E4F01B1CCE93070065D83D /* Reachability.h */,
 				62E4F01C1CCE93070065D83D /* Reachability.m */,
 			);
@@ -168,6 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62E4F0371CD135EB0065D83D /* TuneCollectionViewCell.m in Sources */,
 				62E4F02A1CCFED2F0065D83D /* DetailViewController.m in Sources */,
 				62E4F00A1CCE8CB10065D83D /* ViewController.m in Sources */,
 				62E4F0071CCE8CB10065D83D /* AppDelegate.m in Sources */,

@@ -9,14 +9,17 @@
 #import "ViewController.h"
 #import "Reachability.h"
 #import "DetailViewController.h"
+#import "TuneCollectionViewCell.h"
 
 @interface ViewController ()
 
-@property (nonatomic, strong) NSString           *hostname;
-@property (nonatomic, strong) NSArray            *tunesearchArray;
-@property (nonatomic, weak) IBOutlet UITableView *tunesearchTable;
-@property (nonatomic, weak) IBOutlet UITextField *artistNameTextField;
-@property (nonatomic, weak) IBOutlet UIImageView *tuneImageView;
+@property (nonatomic, strong) NSString                *hostname;
+@property (nonatomic, strong) NSArray                 *tunesearchArray;
+//@property (nonatomic, weak) IBOutlet UITableView    *tunesearchTable;
+@property (nonatomic, weak) IBOutlet UITextField      *artistNameTextField;
+@property (nonatomic, weak) IBOutlet UICollectionView *tuneCollectionView;
+
+
 
 
 
@@ -46,40 +49,81 @@ bool serverAvailable;
 -(BOOL)file:(NSString *)filename isInDicrectory:(NSString *)directory {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *filePath = [directory stringByAppendingPathComponent: filename];
-    
+    NSLog(@"FilePath: %@",filePath);
     return [fileManager fileExistsAtPath: filePath];
     
 }
 
-//for (NSDictionary *resultsDict in tempArray) {
-//    NSLog(@"songs: %@ track %@", [resultsDict objectForKey:@"artistName"],[resultsDict objectForKey:@"trackId"]);
-//    Song *newsong = [[Song alloc] initWithArtistName:[resultsDict objectForKey:@"artistName"] andSongTitle:[resultsDict objectForKey:@"trackName"] andalbumTitle:[resultsDict objectForKey:@"collectionName"] andAlbumtArtFileName:[resultsDict objectForKey:@"artworkUrl60"] andtrackExplicit:[resultsDict objectForKey:@"trackExplicitness"] andtrackId:[NSString stringWithFormat:@"%@.jpg",[resultsDict objectForKey:@"trackId"]] anditemKind:[resultsDict objectForKey:@"kind"] andpreviewUrl:[resultsDict objectForKey:@"previewURL"] andpreviewName:[NSString stringWithFormat:@"%@.m4a",[resultsDict objectForKey:@"trackId"]] anddescriptString:[resultsDict objectForKey:@"longDescription"]];
-//    [_resultsArray addObject:newsong];
 
-
-#pragma mark - Table View Methods
+#pragma mark - Collection View Methods
 
 //ENTER DATA INTO TABLE VIEW CELLS & INDEX PATH FOR ROWS
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return _tunesearchArray.count;
+//}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return _tunesearchArray.count;
 }
 
 
-
-//NSString *uniqueImageName = [[NSProcessInfo processInfo] globallyUniqueString];
-//NSString *uniqueImageNameWithExt = [uniqueImageName stringByAppendingString:@".jpg"];
-
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    TuneCollectionViewCell *cell = (TuneCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
+    
     NSDictionary *currentTune = _tunesearchArray[indexPath.row];
-    cell.textLabel.text = [currentTune objectForKey:@"artistName"];
-    cell.detailTextLabel.text = [currentTune objectForKey:@"trackName"];
-   
+    cell.artistNameLabel.text = [currentTune objectForKey:@"artistName"];
+    cell.tuneNameLabel.text = [currentTune objectForKey:@"trackName"];
+    
+        NSString *filename = [NSString stringWithFormat:@"%@.jpg",[currentTune objectForKey:@"trackId"]];
+    
+        if ([self file:filename isInDicrectory:NSTemporaryDirectory()]) {
+            NSLog(@"Found %@",filename);
+            cell.tuneImageView.image = [UIImage imageNamed:[NSTemporaryDirectory() stringByAppendingPathComponent:filename]];
+        } else {
+            cell.tuneImageView.image = nil;
+            [self getImageFromServer:filename fromURL: [currentTune objectForKey:@"artworkUrl100"] atIndexPath:indexPath];
+            NSLog(@"had to fetch %@",filename);
+        }
+    
+    
+    cell.layer.masksToBounds = YES;
+    cell.layer.cornerRadius = 4;
+    
     
     return cell;
 }
+
+-(CGSize) collectionView: (UICollectionView *)UICollectionView layout:(UICollectionViewLayout *)UICollectionViewLayout sizeforItemAtIndexPath: (NSIndexPath *)indexpath {
+    return CGSizeMake(141.0, 168.0);
+    
+}
+
+
+
+
+//#pragma mark-  Table View Methods
+
+//-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+//    NSDictionary *currentTune = _tunesearchArray[indexPath.row];
+//    cell.textLabel.text = [currentTune objectForKey:@"artistName"];
+//    cell.detailTextLabel.text = [currentTune objectForKey:@"trackName"];
+//    NSString *filename = [NSString stringWithFormat:@"%@.jpg",[currentTune objectForKey:@"trackId"]];
+//   
+//    if ([self file:filename isInDicrectory:NSTemporaryDirectory()]) {
+//        NSLog(@"Found %@",filename);
+//        cell.imageView.image = [UIImage imageNamed:[NSTemporaryDirectory() stringByAppendingPathComponent:filename]];
+//    } else {
+//        cell.imageView.image = nil;
+//        [self getImageFromServer:filename fromURL: [currentTune objectForKey:@"artworkUrl60"] atIndexPath:indexPath];
+//        NSLog(@"had to fetch %@",filename);
+//    }
+//    
+//    return cell;
+//}
+
+
 //if ([self file:currentTune.trackId isInDirectory:NSTemporaryDirectory()]) {
 //    NSLog(@"Found %@",currentTune.trackId);
 //    cell.albumArtImageView.image = [UIImage imageNamed:[NSTemporaryDirectory() stringByAppendingPathComponent:currentTune.trackId]];
@@ -91,37 +135,20 @@ bool serverAvailable;
 
 
 
-
-
-
-// LAB WORK REFERENCE
-//if ([self file:currentFlavor.flavorImageFilename isInDicrectory:[self getDocumentsDirectory]]) {
-//    NSLog(@"Found %@", currentFlavor.flavorImageFilename);
-//    cell.imageView.image =[UIImage imageNamed:[[self getDocumentsDirectory] stringByAppendingPathComponent:currentFlavor.flavorImageFilename]];
-//} else {
-//    NSLog(@"Not Found %@", currentFlavor.flavorImageFilename);
-//    [self getImageFromServer:currentFlavor.flavorImageFilename fromURL:[NSString stringWithFormat:@"http://%@/classfiles/images/%@",_hostname,currentFlavor.flavorImageFilename] atIndexPath:indexPath];
-//    
-//    
-//}
-//
-//return cell;
-//}
-
-
 #pragma mark - Interactivity Methods
 
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailViewController *destController = [segue destinationViewController];
-    NSIndexPath *indexPath = [_tunesearchTable indexPathForSelectedRow];
+    NSIndexPath *indexPath = [_tuneCollectionView indexPathsForSelectedItems][0];
     destController.currentTuneDict =[_tunesearchArray objectAtIndex:indexPath.row];
 }
 
 
 -(void)getImageFromServer:(NSString *)localFilename fromURL:(NSString *)fullFileName atIndexPath:(NSIndexPath *) indexPath {
-    if (serverAvailable) {
+        if (serverAvailable) {
+            
         NSURL *fileURL = [NSURL URLWithString:fullFileName];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:fileURL];
@@ -129,13 +156,17 @@ bool serverAvailable;
         [request setTimeoutInterval:30.0];
         NSURLSession *session = [NSURLSession sharedSession];
         [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            
             if (([data length] > 0) && (error == nil)) {
-                NSString *savedFilePath = [[self getDocumentsDirectory] stringByAppendingPathComponent:localFilename];
+                NSString *savedFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:localFilename];
                 UIImage *imageTemp = [UIImage imageWithData:data];
+                
                 if (imageTemp !=nil) {
                     [data writeToFile:savedFilePath atomically:true];
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [_tunesearchTable reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                        [_tuneCollectionView reloadItemsAtIndexPaths:@[indexPath]];
+                        //withRowAnimation:
+                         //UITableViewRowAnimationAutomatic];
                     });
                 }
             }
@@ -149,8 +180,10 @@ bool serverAvailable;
 
 -(IBAction)getFilePressed:(id)sender {
     NSLog(@"grab from host ");
+    
     if (serverAvailable) {
         NSLog(@"Server Avail");
+        
         if (serverAvailable) {
             NSURL *fileURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@",_artistNameTextField.text]];
             NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
@@ -160,6 +193,7 @@ bool serverAvailable;
             NSURLSession *session = [NSURLSession sharedSession];
             [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 NSLog(@"Got Response");
+                
                 if (([data length] > 0) && (error == nil)) {
                     
 //TEST TO RETURN HEX DATA
@@ -174,16 +208,10 @@ bool serverAvailable;
                         
                         
                         
-                        
-                        
-                        
-                        
-                        
-                        
                     }
                     dispatch_async(dispatch_get_main_queue(), ^{
                         // Refresh Data on Interface
-                        [_tunesearchTable reloadData];
+                        [_tuneCollectionView reloadData];
                         
                     });
                 }
@@ -205,22 +233,6 @@ bool serverAvailable;
     }
 }
 
-//Flavor *newFlavor= [[Flavor alloc] initWithName:[flavorDict objectForKey:@"name"] andImageName:[flavorDict objectForKey:@"filename"] andDateUpdate:[formatter dateFromString:[flavorDict objectForKey:@"dateUpdated"]]];
-////                    newFlavor.flavorName = [flavorDict objectForKey:@"name"];
-////                    newFlavor.flavorImageFilename = [flavorDict objectForKey:@"filename"];
-////                    newFlavor.dateUpdated = [formatter dateFromString:[flavorDict objectForKey:@"dateUpdated"]];
-//[_flavorsArray addObject:newFlavor];
-//}
-//dispatch_async(dispatch_get_main_queue(), ^{
-//    //MAIN THREAD CODE GOES HERE
-//    // Refresh Data on Interface
-//    [_flavorTable reloadData];
-//});
-//
-//}
-//
-//}] resume];
-
 
 
 
@@ -232,7 +244,9 @@ bool serverAvailable;
 - (void)updateReachabilitStatus:(Reachability *)currentReach {
     NSParameterAssert([currentReach isKindOfClass:[Reachability class]]);
     NetworkStatus netStatus = [currentReach currentReachabilityStatus];
+    
     //HOST REACH
+    
     if (currentReach == hostReach) {
         switch (netStatus) {
             case NotReachable:
@@ -249,7 +263,9 @@ bool serverAvailable;
         }
     }
     //INTERNET REACH
+    
     if (currentReach == internetReach || currentReach == wifiReach) {
+        
         switch (netStatus) {
             case NotReachable:
                 NSLog(@"Internet Not Available");

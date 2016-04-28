@@ -8,10 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
-
-//@property (nonatomic, strong) Tune  *currentTune;
-
+@interface ViewController : UIViewController <UICollectionViewDelegate,UICollectionViewDataSource>
 
 
 

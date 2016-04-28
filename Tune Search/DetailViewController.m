@@ -8,9 +8,12 @@
 
 #import "DetailViewController.h"
 #import <Social/Social.h>
+#import <SafariServices/SafariServices.h>
+
 
 @interface DetailViewController ()
 
+@property (nonatomic, weak) IBOutlet UIWebView *tuneWebView;
 
 
 
@@ -21,6 +24,32 @@
 
 
 @implementation DetailViewController
+
+#pragma mark -Web Methods
+
+
+
+//-(IBAction)showWebsitePressed:(id)sender {
+//    NSLog(@"Show Website");
+//    NSURL *webURL = [[NSURL alloc] initWithString:@"https://itunes.apple.com/"];
+//    [_myWebView loadRequest:[NSURLRequest requestWithURL:webURL]];
+//    
+//}
+
+
+
+-(IBAction)openURLPressed:(id)sender {
+    NSLog(@"Open URL");
+    NSURL *myURL = [NSURL URLWithString:@"http://genius.com"];
+    if ([[UIApplication sharedApplication] canOpenURL:myURL])  {
+        NSLog(@"Can Open");
+        [[UIApplication sharedApplication] openURL:myURL];
+    } else {
+        NSLog(@"Can't Open");
+        
+    }
+    
+}
 
 
 #pragma mark - Interactivity Methods
