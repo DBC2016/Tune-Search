@@ -95,6 +95,9 @@ CGFloat lastRotation;
     lastRotation = gesture.rotation;
 }
 
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return true;
+}
 
 
 

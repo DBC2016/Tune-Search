@@ -92,7 +92,7 @@
                                             <constraint firstAttribute="width" constant="86" id="N6O-IQ-TnY"/>
                                             <constraint firstAttribute="height" constant="44" id="zcR-El-PD2"/>
                                         </constraints>
-                                        <state key="normal" title="Tune Search"/>
+                                        <state key="normal" title=" Search"/>
                                         <connections>
                                             <action selector="getFilePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HW8-8d-C5W"/>
                                         </connections>
@@ -193,7 +193,7 @@
                                     <action selector="whateverButtonPressed:" destination="eH4-Bk-8L1" eventType="touchUpInside" id="Mqi-lr-jm9"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Share with a Tune!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JY7-5w-yxP">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Share a Tune!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JY7-5w-yxP">
                                 <rect key="frame" x="13" y="79" width="141" height="21"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -207,11 +207,7 @@
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
-                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wFl-uX-yUW">
-                                <rect key="frame" x="0.0" y="411" width="333" height="169"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
-                            </webView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VYK-rg-fHu">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VYK-rg-fHu">
                                 <rect key="frame" x="20" y="359" width="118" height="30"/>
                                 <state key="normal" title="Click to Continue"/>
                                 <connections>
@@ -239,9 +235,13 @@
                                     <action selector="audioResetButtonPressed:" destination="eH4-Bk-8L1" eventType="touchUpInside" id="aSg-pa-fcv"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CxG-W2-um5">
-                                <rect key="frame" x="199" y="219" width="240" height="128"/>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Tune View Image" translatesAutoresizingMaskIntoConstraints="NO" id="CxG-W2-um5">
+                                <rect key="frame" x="180" y="231" width="240" height="128"/>
                                 <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="O9Z-oO-PZT"/>
+                                    <constraint firstAttribute="height" constant="128" id="wbq-Ez-B2B"/>
+                                </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="sN5-eP-8B4" appends="YES" id="EBM-6Y-MmL"/>
                                     <outletCollection property="gestureRecognizers" destination="xBc-1f-ZNL" appends="YES" id="Rla-Gd-Bhu"/>
@@ -250,28 +250,28 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="wFl-uX-yUW" firstAttribute="top" secondItem="VYK-rg-fHu" secondAttribute="bottom" constant="25" id="UEs-qX-3X6"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="wFl-uX-yUW" secondAttribute="trailing" id="dSt-M2-Ync"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="wFl-uX-yUW" secondAttribute="leading" id="yMe-v8-yle"/>
+                            <constraint firstItem="CxG-W2-um5" firstAttribute="leading" secondItem="GI2-L9-Po2" secondAttribute="leadingMargin" constant="160" id="0Ju-Zi-5cf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="CxG-W2-um5" secondAttribute="trailing" constant="160" id="Qbb-zd-vTn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Tune Search" id="1CJ-aL-jaY"/>
                     <connections>
-                        <outlet property="tuneImageView" destination="CxG-W2-um5" id="Bbw-Nm-pcL"/>
+                        <outlet property="tuneImageView" destination="CxG-W2-um5" id="gPc-fY-ZjN"/>
                         <outlet property="tunePlayPauseButton" destination="6Eb-kG-dcD" id="UYr-ba-Z1k"/>
                         <outlet property="tuneResetButton" destination="3ad-tL-pXL" id="NTl-J5-aky"/>
-                        <outlet property="tuneWebView" destination="wFl-uX-yUW" id="IXK-CC-pfv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CF2-8A-6O9" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <pinchGestureRecognizer id="sN5-eP-8B4">
                     <connections>
                         <action selector="imagePinched:" destination="eH4-Bk-8L1" id="W4p-RG-U2W"/>
+                        <outlet property="delegate" destination="eH4-Bk-8L1" id="t2C-Dt-s1u"/>
                     </connections>
                 </pinchGestureRecognizer>
                 <rotationGestureRecognizer id="xBc-1f-ZNL">
                     <connections>
                         <action selector="imageRotated:" destination="eH4-Bk-8L1" id="aQU-Js-UDM"/>
+                        <outlet property="delegate" destination="eH4-Bk-8L1" id="Ftz-7H-mJJ"/>
                     </connections>
                 </rotationGestureRecognizer>
             </objects>
@@ -296,4 +296,7 @@
             <point key="canvasLocation" x="134" y="265"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Tune View Image" width="125" height="25"/>
+    </resources>
 </document>
