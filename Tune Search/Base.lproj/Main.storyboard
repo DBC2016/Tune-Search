@@ -45,13 +45,13 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="czC-G0-EKS">
                                                     <rect key="frame" x="8" y="140" width="114" height="28"/>
                                                     <fontDescription key="fontDescription" name="EuphemiaUCAS-Italic" family="Euphemia UCAS" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eo8-wt-k7o" userLabel="Artist Name Label">
                                                     <rect key="frame" x="4" y="118" width="129" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -76,40 +76,68 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="6Ma-0C-NPs"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fr7-5q-e8Y">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ymv-Vq-YFC">
+                                        <rect key="frame" x="0.0" y="0.0" width="511" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="XTh-3L-7LQ"/>
+                                        </constraints>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eDS-DK-Pjk">
+                                        <rect key="frame" x="511" y="0.0" width="86" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="86" id="N6O-IQ-TnY"/>
+                                            <constraint firstAttribute="height" constant="44" id="zcR-El-PD2"/>
+                                        </constraints>
+                                        <state key="normal" title="Tune Search"/>
+                                        <connections>
+                                            <action selector="getFilePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HW8-8d-C5W"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="eDS-DK-Pjk" firstAttribute="top" secondItem="fr7-5q-e8Y" secondAttribute="top" id="0vE-KS-i3E"/>
+                                    <constraint firstItem="eDS-DK-Pjk" firstAttribute="leading" secondItem="fr7-5q-e8Y" secondAttribute="leading" constant="511" id="Ckb-cF-4iM"/>
+                                    <constraint firstItem="ymv-Vq-YFC" firstAttribute="leading" secondItem="fr7-5q-e8Y" secondAttribute="leading" id="a4g-72-Ae5"/>
+                                    <constraint firstItem="ymv-Vq-YFC" firstAttribute="top" secondItem="fr7-5q-e8Y" secondAttribute="top" id="aal-9A-dhu"/>
+                                    <constraint firstAttribute="trailing" secondItem="eDS-DK-Pjk" secondAttribute="trailing" constant="3" id="oZM-cZ-dY3"/>
+                                    <constraint firstAttribute="height" constant="44" id="vFM-Zw-Nhj"/>
+                                    <constraint firstItem="eDS-DK-Pjk" firstAttribute="leading" secondItem="ymv-Vq-YFC" secondAttribute="trailing" id="zxU-Nv-qso"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Ckb-cF-4iM"/>
+                                    </mask>
+                                </variation>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Jy0-dj-nn4" secondAttribute="trailing" constant="-20" id="3zs-PL-REo"/>
                             <constraint firstItem="Jy0-dj-nn4" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-64" id="Ah7-lo-qdK"/>
+                            <constraint firstItem="fr7-5q-e8Y" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="FRb-mb-Emc"/>
+                            <constraint firstItem="fr7-5q-e8Y" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="Le4-uW-7x1"/>
                             <constraint firstItem="Jy0-dj-nn4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="dqh-b9-CIY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fr7-5q-e8Y" secondAttribute="trailing" constant="-20" id="mdU-DV-ODV"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Jy0-dj-nn4" secondAttribute="bottom" id="o1C-ll-9RE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qXQ-yz-DC5">
                         <nil key="title"/>
-                        <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Artist Search" minimumFontSize="17" id="TPb-UJ-8nf">
-                            <rect key="frame" x="158" y="7" width="284" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="yrl-bx-Wyi">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="pfM-iS-WyB">
-                                <rect key="frame" x="465" y="7" width="115" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="115" id="JgJ-v1-Z9x"/>
-                                    <constraint firstAttribute="height" constant="30" id="nyB-Gy-9Ou"/>
-                                </constraints>
-                                <state key="normal" title="Tune Search"/>
-                                <connections>
-                                    <action selector="getFilePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2kN-si-eCL"/>
-                                </connections>
-                            </button>
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="nDb-1B-c2e">
+                            <connections>
+                                <action selector="toggleMenuView:" destination="BYZ-38-t0r" id="NQo-ah-86A"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="artistNameTextField" destination="TPb-UJ-8nf" id="KrP-Lp-mez"/>
+                        <outlet property="artistSearchBar" destination="ymv-Vq-YFC" id="Esg-A2-zr8"/>
+                        <outlet property="menuTopConstraint" destination="FRb-mb-Emc" id="J62-ew-txY"/>
+                        <outlet property="menuView" destination="fr7-5q-e8Y" id="PCS-0P-lPL"/>
                         <outlet property="tuneCollectionView" destination="Jy0-dj-nn4" id="awA-tj-omH"/>
                     </connections>
                 </viewController>
@@ -168,28 +196,57 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Share with a Tune!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JY7-5w-yxP">
                                 <rect key="frame" x="13" y="79" width="141" height="21"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                                <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Get Song Lyrics!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rCZ-zJ-vml">
-                                <rect key="frame" x="8" y="222" width="132.5" height="21"/>
+                                <rect key="frame" x="9" y="311" width="132.5" height="21"/>
                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
-                                <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </label>
                             <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wFl-uX-yUW">
-                                <rect key="frame" x="20" y="306" width="560" height="206"/>
+                                <rect key="frame" x="0.0" y="411" width="333" height="169"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                             </webView>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VYK-rg-fHu">
-                                <rect key="frame" x="85" y="251" width="118" height="30"/>
+                                <rect key="frame" x="20" y="359" width="118" height="30"/>
                                 <state key="normal" title="Click to Continue"/>
                                 <connections>
                                     <action selector="openURLPressed:" destination="eH4-Bk-8L1" eventType="touchUpInside" id="FRq-8e-fGc"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Preview Song!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cz6-aI-7om">
+                                <rect key="frame" x="20" y="226" width="110" height="21"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="16"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Eb-kG-dcD">
+                                <rect key="frame" x="21" y="255" width="50" height="30"/>
+                                <state key="normal" title="Play"/>
+                                <connections>
+                                    <action selector="audioPlayPauseButtonPressed:" destination="eH4-Bk-8L1" eventType="touchUpInside" id="2cv-ZF-QSY"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ad-tL-pXL">
+                                <rect key="frame" x="99" y="255" width="39" height="30"/>
+                                <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="audioResetButtonPressed:" destination="eH4-Bk-8L1" eventType="touchUpInside" id="aSg-pa-fcv"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CxG-W2-um5">
+                                <rect key="frame" x="199" y="219" width="240" height="128"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="sN5-eP-8B4" appends="YES" id="EBM-6Y-MmL"/>
+                                    <outletCollection property="gestureRecognizers" destination="xBc-1f-ZNL" appends="YES" id="Rla-Gd-Bhu"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -200,10 +257,23 @@
                     </view>
                     <navigationItem key="navigationItem" title="Tune Search" id="1CJ-aL-jaY"/>
                     <connections>
+                        <outlet property="tuneImageView" destination="CxG-W2-um5" id="Bbw-Nm-pcL"/>
+                        <outlet property="tunePlayPauseButton" destination="6Eb-kG-dcD" id="UYr-ba-Z1k"/>
+                        <outlet property="tuneResetButton" destination="3ad-tL-pXL" id="NTl-J5-aky"/>
                         <outlet property="tuneWebView" destination="wFl-uX-yUW" id="IXK-CC-pfv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CF2-8A-6O9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="sN5-eP-8B4">
+                    <connections>
+                        <action selector="imagePinched:" destination="eH4-Bk-8L1" id="W4p-RG-U2W"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <rotationGestureRecognizer id="xBc-1f-ZNL">
+                    <connections>
+                        <action selector="imageRotated:" destination="eH4-Bk-8L1" id="aQU-Js-UDM"/>
+                    </connections>
+                </rotationGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1678" y="265"/>
         </scene>

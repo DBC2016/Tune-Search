@@ -13,11 +13,15 @@
 
 @interface ViewController ()
 
-@property (nonatomic, strong) NSString                *hostname;
-@property (nonatomic, strong) NSArray                 *tunesearchArray;
-//@property (nonatomic, weak) IBOutlet UITableView    *tunesearchTable;
-@property (nonatomic, weak) IBOutlet UITextField      *artistNameTextField;
-@property (nonatomic, weak) IBOutlet UICollectionView *tuneCollectionView;
+@property (nonatomic, strong)          NSString                *hostname;
+@property (nonatomic, strong)          NSArray                 *tunesearchArray;
+//@property (nonatomic, weak) IBOutlet UITableView             *tunesearchTable;
+//@property (nonatomic, weak) IBOutlet UITextField             *artistNameTextField;
+@property (nonatomic, weak) IBOutlet   UISearchBar             *artistSearchBar;
+@property (nonatomic, weak) IBOutlet   UICollectionView        *tuneCollectionView;
+
+@property (nonatomic, weak) IBOutlet   UIView                  *menuView;
+@property (nonatomic, weak) IBOutlet   NSLayoutConstraint      *menuTopConstraint;
 
 
 
@@ -34,6 +38,38 @@ Reachability *internetReach;
 Reachability *wifiReach;
 bool internetAvailable;
 bool serverAvailable;
+
+
+
+
+#pragma mark- Animation Interactivity Methods
+
+
+-(IBAction)toggleMenuView:(id)sender {
+    NSLog(@"Toggle");
+    if (_menuView.hidden) {
+        [_menuView setHidden:false];
+        [UIView animateWithDuration:0.7 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            //            [_menuView setAlpha:1.0];
+            _menuTopConstraint.constant = 0.0;
+        } completion:^(BOOL finished) {
+            //
+        }];
+    } else {
+        [UIView animateWithDuration:4.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            _menuTopConstraint.constant = -1 * _menuView.frame.size.height;
+            [self.view layoutIfNeeded];
+            
+            
+        } completion:^(BOOL finished) {
+            [_menuView setHidden:true];
+            
+        }];
+        
+    }
+    
+}
+
 
 
 
@@ -75,6 +111,7 @@ bool serverAvailable;
     cell.artistNameLabel.text = [currentTune objectForKey:@"artistName"];
     cell.tuneNameLabel.text = [currentTune objectForKey:@"trackName"];
     
+    
         NSString *filename = [NSString stringWithFormat:@"%@.jpg",[currentTune objectForKey:@"trackId"]];
     
         if ([self file:filename isInDicrectory:NSTemporaryDirectory()]) {
@@ -90,6 +127,8 @@ bool serverAvailable;
     cell.layer.masksToBounds = YES;
     cell.layer.cornerRadius = 4;
     
+    [_artistSearchBar resignFirstResponder];
+
     
     return cell;
 }
@@ -142,8 +181,11 @@ bool serverAvailable;
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     DetailViewController *destController = [segue destinationViewController];
     NSIndexPath *indexPath = [_tuneCollectionView indexPathsForSelectedItems][0];
-    destController.currentTuneDict =[_tunesearchArray objectAtIndex:indexPath.row];
+    NSDictionary *selectedTune = [_tunesearchArray objectAtIndex:indexPath.row];
+    NSLog(@"Dict:%@",selectedTune);
+    destController.currentTuneDict = selectedTune;
 }
+
 
 
 -(void)getImageFromServer:(NSString *)localFilename fromURL:(NSString *)fullFileName atIndexPath:(NSIndexPath *) indexPath {
@@ -185,7 +227,7 @@ bool serverAvailable;
         NSLog(@"Server Avail");
         
         if (serverAvailable) {
-            NSURL *fileURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@",_artistNameTextField.text]];
+            NSURL *fileURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/search?term=%@",_artistSearchBar.text]];
             NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
             [request setURL:fileURL];
             [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
@@ -193,7 +235,7 @@ bool serverAvailable;
             NSURLSession *session = [NSURLSession sharedSession];
             [[session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                 NSLog(@"Got Response");
-                
+
                 if (([data length] > 0) && (error == nil)) {
                     
 //TEST TO RETURN HEX DATA

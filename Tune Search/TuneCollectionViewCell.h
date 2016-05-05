@@ -15,6 +15,7 @@
 @property (nonatomic, weak) IBOutlet UILabel     *tuneNameLabel;
 @property (nonatomic, weak) IBOutlet UITextField *tuneTextField;
 @property (nonatomic, weak) IBOutlet UILabel     *artistNameLabel;
+@property (nonatomic, weak) IBOutlet UIButton    *tunePreviewButton;
 
 
 

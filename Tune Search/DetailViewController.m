@@ -9,16 +9,29 @@
 #import "DetailViewController.h"
 #import <Social/Social.h>
 #import <SafariServices/SafariServices.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AVFoundation/AVFoundation.h>
 
 
 @interface DetailViewController ()
 
-@property (nonatomic, weak) IBOutlet UIWebView *tuneWebView;
+
+@property (nonatomic, weak)   IBOutlet UIWebView               *tuneWebView;
+
+@property (nonatomic, strong) IBOutlet UIButton                *tunePlayPauseButton;
+@property (nonatomic, strong) IBOutlet UIButton                *tuneResetButton;
+@property (nonatomic, strong) IBOutlet AVPlayer                *tunePlayer;
+@property (nonatomic, strong) IBOutlet UIImageView             *tuneImageView;
+
 
 
 
 @end
 
+CGFloat lastScale;
+CGFloat firstX;
+CGFloat firsty;
+CGFloat lastRotation;
 
 
 
@@ -40,7 +53,7 @@
 
 -(IBAction)openURLPressed:(id)sender {
     NSLog(@"Open URL");
-    NSURL *myURL = [NSURL URLWithString:@"http://genius.com"];
+    NSURL *myURL = [NSURL URLWithString:@"http://www.genius.com"];
     if ([[UIApplication sharedApplication] canOpenURL:myURL])  {
         NSLog(@"Can Open");
         [[UIApplication sharedApplication] openURL:myURL];
@@ -50,6 +63,74 @@
     }
     
 }
+
+
+
+#pragma mark- Guesture Methods
+
+
+
+-(IBAction)imagePinched:(UIPinchGestureRecognizer *)gesture {
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        lastScale = 1.0;
+        
+    }
+    CGFloat scale = 1.0 - (lastScale -gesture.scale);
+    CGAffineTransform currentTransform = _tuneImageView.transform;
+    CGAffineTransform newTransform = CGAffineTransformScale(currentTransform, scale, scale);
+    [_tuneImageView setTransform:newTransform];
+    lastScale = gesture.scale;
+}
+
+-(IBAction)imageRotated:(UIRotationGestureRecognizer *)gesture {
+    if (gesture.state == UIGestureRecognizerStateEnded) {
+        lastRotation = 0.0;
+        return;
+    }
+    CGFloat rotation = 0.0 - (lastRotation - gesture.rotation);
+    CGAffineTransform currentTransform = _tuneImageView.transform;
+    CGAffineTransform newTransform = CGAffineTransformRotate(currentTransform, rotation);
+    [_tuneImageView setTransform:newTransform];
+    
+    lastRotation = gesture.rotation;
+}
+
+
+
+
+#pragma mark - Audio Interactivty Methods
+
+
+- (IBAction)audioPlayPauseButtonPressed:(id)sender {
+    NSLog(@"Play Preview");
+    if ([[[_tunePlayPauseButton titleLabel] text] isEqualToString:@"Play"]) {
+        NSLog(@"About to play");
+        [_tunePlayPauseButton setTitle:@"Pause" forState:UIControlStateNormal];
+        [_tunePlayer play];
+    } else {
+        [_tunePlayPauseButton setTitle:@"Play" forState:UIControlStateNormal];
+        [_tunePlayer pause];
+        
+    }
+}
+
+- (IBAction)audioResetButtonPressed:(id)sender {
+    NSLog(@"Reset");
+    [_tunePlayer.currentItem seekToTime:kCMTimeZero];
+}
+
+
+-(void) playerItemDidReachEnd: (NSNotification *)notification {
+    NSLog(@"Player Ended");
+    AVPlayerItem *playerItemer = [notification object];
+    if (playerItemer == _tunePlayer.currentItem) {
+        [_tunePlayer.currentItem seekToTime:kCMTimeZero];
+        [_tunePlayer pause];
+    }
+    
+}
+
+
 
 
 #pragma mark - Interactivity Methods
@@ -62,7 +143,7 @@
         MFMailComposeViewController *mailVC = [[MFMailComposeViewController alloc] init];
         mailVC.mailComposeDelegate = self;
         [mailVC setSubject:[NSString stringWithFormat:@"%@ Music is the best ever",[_currentTuneDict objectForKey:@"artistName"]]];
-        [mailVC setMessageBody:@"Do you think %@ is the best ever?" isHTML:false];
+        [mailVC setMessageBody:[NSString stringWithFormat:@"Do you think %@ is the best ever?",[_currentTuneDict objectForKey:@"artistName"]] isHTML:false];
         [mailVC setToRecipients:@[@"binkdetroit@gmail.com"]];
         [self.navigationController presentViewController:mailVC animated:true completion:nil];
     }
@@ -117,6 +198,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"Got: %@",_currentTuneDict);
+    NSString *previewString = [_currentTuneDict objectForKey:@"previewUrl"];
+    NSLog(@"Preview:%@",previewString);
+    NSURL *tunesURL = [NSURL URLWithString:previewString];
+    _tunePlayer = [AVPlayer playerWithURL:tunesURL];
+    _tunePlayer.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:[_tunePlayer currentItem]];
+    
+    NSString *filename = [NSString stringWithFormat:@"%@.jpg",[_currentTuneDict objectForKey:@"trackId"]];
+    _tuneImageView.image = [UIImage imageNamed:[NSTemporaryDirectory() stringByAppendingPathComponent:filename]];
 }
 
 - (void)didReceiveMemoryWarning {
